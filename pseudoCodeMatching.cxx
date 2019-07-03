@@ -1,35 +1,30 @@
-#include "readScaleFactors.cxx"
+#include "readScaleFactors.h"
 
 // untested pseudo code (just an example)
-double getTopTaggingScaleFactor(TString wp, TString variation, std::vector<genTop> tops, std::vector<Jet> tagged_jets){
+ToptaggingSFs::eCategory getTopTaggingMatch(std::vector<genTop> tops, Jet tagged_jet){
 
-  float weight = 1.;
+  ToptaggingSFs::eCategory cat = ToptaggingSFs::notmerged;
 
-  for(const auto & jet: tagged_jets){ 
-
-    TString category = "notmerged";
-
-    for(const auto & top: tops){
+  for(const auto & top: tops){
     
-      if(!top->IsHadronicDecay()){
-      	continue;
-      }
-
-      int Nmatch = 0;
-      if(deltaR( top.bquark(), jet ) < 0.8) ++Nmatch;
-      if(deltaR( top.WDecayProduct1(), jet ) < 0.8) ++Nmatch;
-      if(deltaR( top.WDecayProduct2(), jet ) < 0.8) ++Nmatch;
-
-      if(Nmatch == 3) category = "mergedTop";
-      if(Nmatch == 2) category = "semimerged";
-
+    if(!top->IsHadronicDecay()){
+     	continue;
     }
 
-    weight *= readScaleFactor(wp, category, jet.Pt(), variation);
+    int Nmatch = 0;
+    if(deltaR( top.bquark(), tagged_jet ) < 0.8) ++Nmatch;
+    if(deltaR( top.WDecayProduct1(), tagged_jet ) < 0.8) ++Nmatch;
+    if(deltaR( top.WDecayProduct2(), tagged_jet ) < 0.8) ++Nmatch;
+
+    if(Nmatch == 3) cat = ToptaggingSFs::mergedTop;
+    if(Nmatch == 2) cat = ToptaggingSFs::semimerged;
+
   }
 
-  return weight;
+  return cat;
+
 }
+
 
 
 
