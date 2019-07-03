@@ -15,8 +15,10 @@ namespace ToptaggingSFs
     //      PUPPI_wp1_btag, PUPPI_wp2_btag, PUPPI_wp3_btag, PUPPI_wp4_btag, PUPPI_wp5_btag
     //      CHS_wp2, CHS_wp3, CHS_wp4, CHS_wp5
     //      CHS_wp2_btag, CHS_wp3_btag, CHS_wp4_btag, CHS_wp5_btag
+    //      HOTVR
     // supported years: 
     //      2016, 2017 (2018 in development)
+    //      note that HOTVR scale factors are available for 2016 only so far, only with mass cut
     // mass cut:
     //      set to 'true'  for 105 < mjet(soft drop) < 210 GeV
     //      set to 'false' for no jet mass cut
@@ -25,10 +27,11 @@ namespace ToptaggingSFs
     // supported variations: 'nominal', 'up', 'down'
   
     // check wp 
-    TString supported_wps[18] = { "PUPPI_wp1", "PUPPI_wp2", "PUPPI_wp3", "PUPPI_wp4", "PUPPI_wp5", 
+    TString supported_wps[19] = { "PUPPI_wp1", "PUPPI_wp2", "PUPPI_wp3", "PUPPI_wp4", "PUPPI_wp5", 
                                   "PUPPI_wp1_btag", "PUPPI_wp2_btag", "PUPPI_wp3_btag", "PUPPI_wp4_btag", "PUPPI_wp5_btag", 
                                   "CHS_wp2", "CHS_wp3", "CHS_wp4", "CHS_wp5", 
-                                  "CHS_wp2_btag", "CHS_wp3_btag", "CHS_wp4_btag", "CHS_wp5_btag"};
+                                  "CHS_wp2_btag", "CHS_wp3_btag", "CHS_wp4_btag", "CHS_wp5_btag", 
+                                  "HOTVR"};
   
     TString wp_name = supported_wps[wp];
   
@@ -55,6 +58,18 @@ namespace ToptaggingSFs
 
     TString mcut = "";
     if (!bMassCut) mcut = "_NoMassCut";
+
+    // no SFs for HOTVR without mass cut availble, throw error message if setup is wrong
+    if (wp==HOTVR){
+        if (!bMassCut){ 
+            std::cerr << "readScaleFactor for top tagging: HOTVR SFs are not available without a mass cut - please correct the error. Returning -1 for SF." << std::endl;
+            return -1;
+        }
+        if (year!=2016){ 
+            std::cerr << "readScaleFactor for top tagging: HOTVR SFs only available for 2016. Returning -1 for SF." << std::endl;
+            return -1;
+        }
+    }
 
     TString filename = "scaleFactors/" + year_name + "TopTaggingScaleFactors" + mcut + ".root";
   
