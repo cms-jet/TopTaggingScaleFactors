@@ -17,8 +17,9 @@ namespace ToptaggingSFs
     //      CHS_wp2_btag, CHS_wp3_btag, CHS_wp4_btag, CHS_wp5_btag
     //      HOTVR
     // supported years: 
-    //      2016, 2017 (2018 in development)
-    //      note that HOTVR scale factors are available for 2016 only so far, only with mass cut
+    //      2016, 2017, 2018
+    //      note that HOTVR scale factors are available for 2016 and 2018 so far, for 2016 only with mass cut
+    //      CHS is only available for 2016 and 2017 so far
     // mass cut:
     //      set to 'true'  for 105 < mjet(soft drop) < 210 GeV
     //      set to 'false' for no jet mass cut
@@ -36,8 +37,8 @@ namespace ToptaggingSFs
     TString wp_name = supported_wps[wp];
   
     // check year
-    if ( (year!=2016) && (year!=2017) ){
-      std::cerr << "readScaleFactor for top tagging: Year " << year << " is not supported. Available are SFs for 2016 and 2017." << std::endl;
+    if ( (year!=2016) && (year!=2017) && (year!=2018) ){
+      std::cerr << "readScaleFactor for top tagging: Year " << year << " is not supported. Available are SFs for 2016, 2017 and 2018." << std::endl;
       std::cerr << "Please correct the error, returning -1 for SF." << std::endl;
       return -1;
     } 
