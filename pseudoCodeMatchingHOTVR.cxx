@@ -15,15 +15,19 @@ ToptaggingSFs::eCategory getTopTaggingMatchHOTVR(std::vector<genTop> tops, Jet t
     bool Wdecay1_matched = false;
     bool Wdecay2_matched = false;
 
-    for( const auto & subjet: tagged_jet.subjets()){ 
-  	  double dRmatch = sqrt(subjet.jetArea()/3.14);
-    }
-  
-  	if(deltaR( top.bquark(), subjet) < dRmatch ) b_matched = true;
-  	if(deltaR( top.WDecayProduct1(), subjet) < dRmatch ) Wdecay1_matched = true;
-  	if(deltaR( top.WDecayProduct2(), subjet) < dRmatch ) Wdecay2_matched = true;
-    
+    double dRmatch;
+    double Rmin = 0.1;
+    double Rmax = 1.5;
+    double rho = 600.;
+    double reff = rho/jet.pt();
+    if( reff <  Rmin ) dRmatch = Rmin;
+    else if( reff >  Rmax ) dRmatch = Rmax;
+    else dRmatch = reff;
 
+    if(deltaR( top.bquark(), jet) < dRmatch ) b_matched = true;
+    if(deltaR( top.WDecayProduct1(), jet) < dRmatch ) Wdecay1_matched = true;
+    if(deltaR( top.WDecayProduct2(), jet) < dRmatch ) Wdecay2_matched = true;
+    
     int Nmatch = 0;
     if(b_matched) ++Nmatch;
     if(Wdecay1_matched) ++Nmatch;
