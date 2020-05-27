@@ -6,7 +6,7 @@ The scale factors can be found in the .root files in ‘scaleFactors/’. The fi
 
 This matching has to be performed in an analysis to apply the correct scale factors. Some pseudo code to give an example how this can be applied in an analysis is given in ‘pseudoCodeMatching’. The top quarks and their decay products are generator particles at LHE level. How to access them is framework dependent and in the responsibility of the analysers. 
 
-For HOTVR in 2016 the decay products are not matched to the full jet but to the HOTVR subjets. The matching radius is estimated from the jet area of each subjet by sqrt( area / pi). In 2018 the decay products are matched to the full jet. The matching radius is calculated from the pt of the jet via rho/pt. Example pseudo code can be found in ‘pseudoCodeMatchingHOTVR’. 
+For HOTVR, the matching radius is calculated from the pt of the probe jet via rho/pt. Example pseudo code can be found in ‘pseudoCodeMatchingHOTVR’. 
 
 The scale factors can be accessed in a physics analysis with the functionality in ’readScaleFactors.cxx’. The function 
 
