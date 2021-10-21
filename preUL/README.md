@@ -7,7 +7,7 @@ https://twiki.cern.ch/twiki/bin/viewauth/CMS/JetTopTagging
 ## Jets and working points
 Data-to-simulation scale factors are provided for AK8 PUPPI and HOTVR PUPPI jets for the years 2016, 2017 and 2018. Following working points are considered:
 
-AK8 PUPPI working points are defined in a soft drop mass window 105 < mSD < 220 GeV and are available with and without loose DeepCSV subjet b tagging.
+AK8 PUPPI working points are defined in a soft drop mass window 105 < mSD < 210 GeV and are available with and without loose DeepCSV subjet b tagging.
 
 | working point | tau32 cut value |
 | ------------- | --------------- |
