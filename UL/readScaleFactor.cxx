@@ -24,7 +24,7 @@ enum class ETagger {
 };
 
 enum class EWorkingPoint {
-  isWP0p38, // for AK8 ETaggers
+  isWP0p38, // for AK8 taggers
   isWP0p47, // %
   isWP0p52, // %
   isWP0p61, // %
@@ -104,7 +104,7 @@ ScaleFactor_t loadScaleFactor(const Double_t jetPt, const ETagger tagger, const 
     .fErrStatUp = graph_stat->GetErrorYhigh(ibin),
     .fErrStatDown = graph_stat->GetErrorYlow(ibin),
     .fErrSystUp = graph_syst->GetErrorYhigh(ibin),
-    .fErrSystDown = graph_syst->GetErrorYlow(ibin)
+    .fErrSystDown = graph_syst->GetErrorYlow(ibin),
   };
 
   rootFile->Close();
