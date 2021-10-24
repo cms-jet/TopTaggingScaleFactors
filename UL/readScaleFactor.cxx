@@ -91,7 +91,7 @@ ScaleFactor_t loadScaleFactor(const Double_t jetPt, const ETagger tagger, const 
     throw std::out_of_range("No scale factor for such low jet pT available");
   }
 
-  while(!(jetPt > x - graph_tot->GetErrorXlow(ibin) && jetPt <= x + graph_tot->GetErrorXhigh(ibin))) { // check if jetPt within pT interval of bin with bin number "ibin"
+  while(!(jetPt >= x - graph_tot->GetErrorXlow(ibin) && jetPt < x + graph_tot->GetErrorXhigh(ibin))) { // check if jetPt within pT interval of bin with bin number "ibin"
     ++ibin;
     graph_tot->GetPoint(ibin, x, y);
     if(ibin + 1 >= graph_tot->GetN()) break; // use scale factor of last bin if given jetPt exceeds highest bin edge of the graph
