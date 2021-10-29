@@ -58,13 +58,13 @@ const std::map<EMergeCategory, TString> kMergeCategoryToString = {
 };
 
 typedef struct {
-  Double_t fCentral; // central value
-  Double_t fErrTotUp; // total uncertainty
-  Double_t fErrTotDown; // %
-  Double_t fErrStatUp; // statistical component
-  Double_t fErrStatDown; // %
-  Double_t fErrSystUp; // systematic component
-  Double_t fErrSystDown; // %
+  Double_t fCentral = 1; // central value
+  Double_t fErrTotUp = 0; // total uncertainty
+  Double_t fErrTotDown = 0; // %
+  Double_t fErrStatUp = 0; // statistical component
+  Double_t fErrStatDown = 0; // %
+  Double_t fErrSystUp = 0; // systematic component
+  Double_t fErrSystDown = 0; // %
 } ScaleFactor_t;
 
 
@@ -86,9 +86,12 @@ ScaleFactor_t loadScaleFactor(const Double_t jetPt, const ETagger tagger, const 
   Double_t y;
   graph_tot->GetPoint(ibin, x, y);
 
+  ScaleFactor_t sf;
+
   const Double_t minimum_jetPt = x - graph_tot->GetErrorXlow(ibin);
   if(jetPt < minimum_jetPt) {
-    throw std::out_of_range("No scale factor for such low jet pT available");
+    std::cerr << "No scale factor for such low jet pT available. Will set scale factor to 1 with zero uncertainty" << std::endl;
+    return sf;
   }
 
   while(!(jetPt >= x - graph_tot->GetErrorXlow(ibin) && jetPt < x + graph_tot->GetErrorXhigh(ibin))) { // check if jetPt within pT interval of bin with bin number "ibin"
@@ -97,7 +100,7 @@ ScaleFactor_t loadScaleFactor(const Double_t jetPt, const ETagger tagger, const 
     if(ibin + 1 >= graph_tot->GetN()) break; // use scale factor of last bin if given jetPt exceeds highest bin edge of the graph
   }
 
-  const ScaleFactor_t sf = ScaleFactor_t{
+  sf = ScaleFactor_t{
     .fCentral = y,
     .fErrTotUp = graph_tot->GetErrorYhigh(ibin),
     .fErrTotDown = graph_tot->GetErrorYlow(ibin),
