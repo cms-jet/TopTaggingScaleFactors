@@ -44,12 +44,20 @@ const std::map<ETagger, TString> kTaggerToString = {
 };
 
 const std::map<EWorkingPoint, TString> kWorkingPointToString = {
-  {EWorkingPoint::isWP0p38, "wp0p38"},
-  {EWorkingPoint::isWP0p47, "wp0p47"},
-  {EWorkingPoint::isWP0p52, "wp0p52"},
-  {EWorkingPoint::isWP0p61, "wp0p61"},
-  {EWorkingPoint::isWP0p69, "wp0p69"},
+  {EWorkingPoint::isWP0p38, "wp0p38_vt"},
+  {EWorkingPoint::isWP0p47, "wp0p47_t"},
+  {EWorkingPoint::isWP0p52, "wp0p52_m"},
+  {EWorkingPoint::isWP0p61, "wp0p61_l"},
+  {EWorkingPoint::isWP0p69, "wp0p69_vl"},
   {EWorkingPoint::isDefault, "default"},
+};
+
+const std::map<EWorkingPoint, TString> kWorkingPointToMisTagEffString = {
+  {EWorkingPoint::isWP0p38, "mis0p001"},
+  {EWorkingPoint::isWP0p47, "mis0p005"},
+  {EWorkingPoint::isWP0p52, "mis0p010"},
+  {EWorkingPoint::isWP0p61, "mis0p025"},
+  {EWorkingPoint::isWP0p69, "mis0p050"},
 };
 
 const std::map<EMergeCategory, TString> kMergeCategoryToString = {
@@ -76,7 +84,7 @@ ScaleFactor_t loadScaleFactor(const Double_t jetPt, const ETagger tagger, const 
     throw std::invalid_argument("Given combination of tagger/WP not valid");
   }
   TFile *rootFile = TFile::Open(kRootFiles.at(year).Data(), "READ");
-  const TString graph_basename = kTaggerToString.at(tagger)+"_"+kWorkingPointToString.at(wp)+"/"+kMergeCategoryToString.at(mergeCat)+"_";
+  const TString graph_basename = kTaggerToString.at(tagger)+"_"+kWorkingPointToString.at(wp)+(tagger == ETagger::isAK8 ? "_"+kWorkingPointToMisTagEffString.at(wp) : "")+"/"+kMergeCategoryToString.at(mergeCat)+"_";
   const TGraphAsymmErrors *graph_tot = (TGraphAsymmErrors*)rootFile->Get((graph_basename+"tot").Data());
   const TGraphAsymmErrors *graph_stat = (TGraphAsymmErrors*)rootFile->Get((graph_basename+"stat").Data());
   const TGraphAsymmErrors *graph_syst = (TGraphAsymmErrors*)rootFile->Get((graph_basename+"syst").Data());
