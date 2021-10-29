@@ -6,6 +6,9 @@ enum class EMergeCategory {
 };
 
 EMergeCategory identifyMergeCategory_AK8(const vector<GenTop> & tops, const Jet & tagged_jet) {
+  if( tops.size() == 0 ) {
+    throw std::domain_error("The provided scale factors are not supposed to be applied on MC not containing top quarks");
+  }
   EMergeCategory result = EMergeCategory::isNotMerged;
   for(const auto top : tops) {
     if( ! top->IsHadronicDecay() ) continue; // only generated top quarks decaying hadronically are considered for determining the merge category
@@ -22,6 +25,9 @@ EMergeCategory identifyMergeCategory_AK8(const vector<GenTop> & tops, const Jet 
 }
 
 EMergeCategory identifyMergeCategory_HOTVR(const vector<GenTop> & tops, const Jet & tagged_jet) {
+  if( tops.size() == 0 ) {
+    throw std::domain_error("The provided scale factors are not supposed to be applied on MC not containing top quarks");
+  }
   EMergeCategory result = EMergeCategory::isNotMerged;
   // HOTVR has a variable jet distance parameter; it is calculated using the raw (i.e. uncorrected) jet pT
   // It is important to use the raw pT, since there are no energy corrections applied to the constituents during the clustering
